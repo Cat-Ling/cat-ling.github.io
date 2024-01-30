@@ -7,8 +7,8 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
-        style-src 'self';
-        script-src 'self';
+        style-src 'self' https://cat-ling.github.io cat-ling.github.io;
+        script-src 'self' https://cat-ling.github.io cat-ling.github.io;
         object-src 'none';
         base-uri 'self';
         form-action 'self' https://www.duckduckgo.com/ https://duckduckgo.com/ duckduckgo.com/;
@@ -22,10 +22,10 @@
         <input autofocus id="urlInput" placeholder="Enter URL or search term">
         <button id="submitBtn">Search</button>
     </div>  
-    <script src="./DuckDuckGo.js" async></script>
-    <script src="./Submit.js" async></script>
-    <script src="./Search.js" async></script>
-    <script src="./Listener.js" async></script>
+    <script src="./DuckDuckGo.js" defer></script>
+    <script src="./Submit.js" defer></script>
+    <script src="./Search.js" defer></script>
+    <script src="./Listener.js" defer></script>
     <footer>
         <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank">DuckDuckGo.</a></div>
     </footer>
