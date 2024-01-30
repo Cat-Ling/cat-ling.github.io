@@ -1,99 +1,101 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    position: relative;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+    
+        html,
+        body {
+            height: 100%;
+        }
 
-html,
-body {
-    height: 100%;
-}
+        #errorMessage {
+            color: red;
+        }
 
-#errorMessage {
-    color: red;
-}
+        #urlContainer {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-#urlContainer {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#urlInput {
-    border: 1px solid #d1d1d1;
-    padding: 8px;
-    border-radius: 50px;
-    margin-bottom: 16px;
-    font-size: 100%;
-    align-items: center;
-    width: 100%;
-    height: 45px;
-    box-sizing: border-box;
-}
-
-#submitBtn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 140%;
-}
-
-footer {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 99%;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 0px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.powered-by {
-    margin-top: 0px;
-    color: #333;
-}
-
-footer a {
-    color: #333;
-    text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #333;
-        color: #fff;
-    }
-
-    #urlInput {
-        border-color: #666;
-        background-color: #555;
-        color: #fff;
-    }
-
-    .powered-by,
-    footer a {
-        color: #fff;
-    }
-
-    footer {
-        background-color: #444;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-
-    #submitBtn {
-        background-color: #007bff;
-        color: #fff;
-    }
-}
+        #urlInput {
+            border: 1px solid #d1d1d1;
+            padding: 8px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+            font-size: 100%;
+            align-items: center;
+            width: 100%;
+            height: 45px;
+            box-sizing: border-box;
+        }
+    
+        #submitBtn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 140%;
+        }
+    
+        footer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 99%;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 0px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .powered-by {
+            margin-top: 0px;
+            color: #333;
+        }
+    
+        footer a {
+            color: #333;
+            text-decoration: none;
+        }
+    
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333;
+                color: #fff;
+            }
+    
+            #urlInput {
+                border-color: #666;
+                background-color: #555;
+                color: #fff;
+            }
+    
+            .powered-by {
+                color: #fff;
+            }
+    
+            footer a {
+                color: #fff;
+            }
+    
+            footer {
+                background-color: #444;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+    
+            #submitBtn {
+                background-color: #007bff;
+                color: #fff;
+            }
+        }
