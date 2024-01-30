@@ -12,7 +12,11 @@
         body {
             height: 100%;
         }
-        
+
+        #errorMessage {
+            color: red;
+        }
+
         #urlContainer {
             width: 80%;
             display: flex;

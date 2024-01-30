@@ -7,13 +7,14 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
-        style-src 'self';
+        style-src 'self' https://cat-ling.github.io/ cat-ling.github.io/;
         script-src 'self' https://cat-ling.github.io/ cat-ling.github.io/;
         object-src 'none';
         base-uri 'self';
         form-action 'self' https://www.duckduckgo.com/ https://duckduckgo.com/ duckduckgo.com/;
     ">
     <title>Search</title>
+    <link rel="stylesheet" href="../sloppy.css">
 </head>
 <body>
     <form>
@@ -21,8 +22,8 @@
         </form>
     <script src="../DuckDuckGo.js" defer></script>
     <script src="../Submit.js" defer></script>
-    <script src="../Search.js" defer></script>  
+    <script src="./Search.js" defer></script>  
     <script src="../Listener.js" defer></script>  
-A search query is required.
+    <div id="errorMessage"></div>
 </body>
 </html>
