@@ -82,10 +82,7 @@ footer a {
         color: #fff;
     }
 
-    .powered-by {
-        color: #fff;
-    }
-
+    .powered-by,
     footer a {
         color: #fff;
     }
@@ -98,28 +95,5 @@ footer a {
     #submitBtn {
         background-color: #007bff;
         color: #fff;
-    }
-}
-
-/* Added Style Elements */
-
-#suggestionsContainer {
-    position: fixed;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ccc;
-    padding: 0px;
-    z-index: 9999;
-    max-height: fit-content;
-    overflow-y: auto;
-    border-radius: 20px;
-    width: 200px;
-}
-
-@media (prefers-color-scheme: dark) {
-    #suggestionsContainer {
-        background-color: #666;
-        color: #fff;
-        border-color: #888;
     }
 }
