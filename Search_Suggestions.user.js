@@ -5,8 +5,8 @@
 // @description  Shows search suggestions fetched from the DuckDuckGo API.
 // @author       Cat-Ling
 // @match        https://cat-ling.github.io/*
-// @updateURL    https://cat-ling.github.io/Search_Suggestions.user.js
-// @downloadURL  https://cat-ling.github.io/Search_Suggestions.user.js
+// @updateURL    https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @run-at       document-idle
