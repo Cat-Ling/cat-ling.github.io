@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Cat Ling Search</ShortName>
+  <Description>Search the web with Cat Ling Search</Description>
+  <Url type="text/html" template="https://cat-ling.github.io/search?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" template="https://duckduckgo.com/ac/?kl=wt-wt&amp;q={searchTerms}"/>
+</OpenSearchDescription>
