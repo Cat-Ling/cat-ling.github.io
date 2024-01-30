@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="https://cat-ling.github.io">
+    <!base href="https://cat-ling.github.io">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
         style-src 'self' https://cat-ling.github.io cat-ling.github.io;
+        connect-src https://duckduckgo.com;
         script-src 'self' https://cat-ling.github.io cat-ling.github.io;
         object-src 'none';
         base-uri 'self';
@@ -22,6 +23,7 @@
         <input autofocus id="urlInput" placeholder="Enter URL or search term">
         <button id="submitBtn">Search</button>
     </div>  
+    <script src="./Suggestions.js" defer></script>
     <script src="./DuckDuckGo.js" defer></script>
     <script src="./Submit.js" defer></script>
     <script src="./Search.js" defer></script>
