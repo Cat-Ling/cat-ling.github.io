@@ -5,67 +5,30 @@
 // @description  Shows search suggestions fetched from the DuckDuckGo API.
 // @author       Cat-Ling
 // @match        https://cat-ling.github.io/*
+// @updateURL    https://cat-ling.github.io/Search_Suggestions.user.js
+// @downloadURL  https://cat-ling.github.io/Search_Suggestions.user.js
 // @grant        GM_xmlhttpRequest
-// @run-at       document-end
+// @grant        GM.xmlHttpRequest
+// @run-at       document-idle
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    function displaySuggestions(suggestions) {
-        let suggestionsContainer = document.getElementById('suggestionsContainer');
-        if (!suggestionsContainer) {
-            suggestionsContainer = document.createElement('div');
-            suggestionsContainer.id = 'suggestionsContainer';
-            suggestionsContainer.style.position = 'fixed';
-            suggestionsContainer.style.backgroundColor = '#fff';
-            suggestionsContainer.style.color = '#000';
-            suggestionsContainer.style.border = '1px solid #ccc';
-            suggestionsContainer.style.padding = '0px';
-            suggestionsContainer.style.zIndex = '9999';
-            suggestionsContainer.style.display = 'none';
-            suggestionsContainer.style.maxHeight = 'fit-content';
-            suggestionsContainer.style.overflowY = 'auto';
-            suggestionsContainer.style.borderRadius = '20px';
-            suggestionsContainer.style.width = '200px';
-            document.body.appendChild(suggestionsContainer);
-        }
-
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            suggestionsContainer.style.backgroundColor = '#666';
-            suggestionsContainer.style.color = '#fff';
-            suggestionsContainer.style.borderColor = '#888';
-        }
-
-        suggestionsContainer.innerHTML = '';
-        suggestions.forEach((suggestion, index) => {
-            const suggestionElement = document.createElement('div');
-            suggestionElement.textContent = suggestion.phrase;
-            suggestionElement.style.cursor = 'pointer';
-            suggestionElement.style.padding = '5px';
-            suggestionElement.addEventListener('click', () => {
-                document.getElementById('urlInput').value = suggestion.phrase;
-                document.getElementById('submitBtn').click();
-            });
-            suggestionElement.addEventListener('mouseover', () => {
-                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#888' : '#cce';
-            });
-            suggestionElement.addEventListener('mouseout', () => {
-                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#666' : '#fff';
-            });
-            suggestionsContainer.appendChild(suggestionElement);
-        });
-        suggestionsContainer.style.display = suggestions.length ? 'block' : 'none';
-
-        if (suggestionsContainer) {
-            updateSuggestionsPosition();
-        }
-    }
-
     async function getSuggestions(query) {
         const url = `https://duckduckgo.com/ac/?kl=wt-wt&q=${query}`;
         return new Promise((resolve, reject) => {
-            GM_xmlhttpRequest({
+            let doRequest;
+            if (typeof GM_xmlhttpRequest !== 'undefined') {
+                doRequest = GM_xmlhttpRequest;
+            } else if (typeof GM !== 'undefined' && typeof GM.xmlHttpRequest !== 'undefined') {
+                doRequest = GM.xmlHttpRequest;
+            } else {
+                reject(new Error('XMLHttpRequest is not supported.'));
+                return;
+            }
+
+            doRequest({
                 method: 'GET',
                 url: url,
                 onload: function(response) {
@@ -84,9 +47,62 @@
     }
 
     let activeSuggestionIndex = -1;
+    const urlInput = document.getElementById('urlInput');
+    const suggestionsContainer = document.createElement('div');
+    document.body.appendChild(suggestionsContainer);
+
+    function displaySuggestions(suggestions) {
+        if (!suggestionsContainer) {
+            return;
+        }
+
+        suggestionsContainer.id = 'suggestionsContainer';
+        suggestionsContainer.style.position = 'fixed';
+        suggestionsContainer.style.backgroundColor = '#fff';
+        suggestionsContainer.style.color = '#000';
+        suggestionsContainer.style.border = '1px solid #ccc';
+        suggestionsContainer.style.padding = '0px';
+        suggestionsContainer.style.zIndex = '9999';
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.style.maxHeight = 'fit-content';
+        suggestionsContainer.style.overflowY = 'auto';
+        suggestionsContainer.style.borderRadius = '20px';
+        suggestionsContainer.style.width = '200px';
+
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            suggestionsContainer.style.backgroundColor = '#666';
+            suggestionsContainer.style.color = '#fff';
+            suggestionsContainer.style.borderColor = '#888';
+        }
+
+        suggestionsContainer.innerHTML = '';
+        suggestions.forEach((suggestion, index) => {
+            const suggestionElement = document.createElement('div');
+            suggestionElement.textContent = suggestion.phrase;
+            suggestionElement.style.cursor = 'pointer';
+            suggestionElement.style.padding = '5px';
+            suggestionElement.addEventListener('click', () => {
+                urlInput.value = suggestion.phrase;
+                document.getElementById('submitBtn').click();
+            });
+            suggestionElement.addEventListener('mouseover', () => {
+                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#888' : '#cce';
+                urlInput.value = suggestion.phrase;
+            });
+            suggestionElement.addEventListener('mouseout', () => {
+                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#666' : '#fff';
+            });
+            suggestionsContainer.appendChild(suggestionElement);
+        });
+        suggestionsContainer.style.display = suggestions.length ? 'block' : 'none';
+
+        if (suggestionsContainer) {
+            updateSuggestionsPosition();
+        }
+    }
 
     function setActiveSuggestion(index) {
-        const suggestions = document.querySelectorAll('#suggestionsContainer > div');
+        const suggestions = suggestionsContainer.querySelectorAll('div');
         if (index < 0 || index >= suggestions.length) {
             return;
         }
@@ -100,7 +116,7 @@
     }
 
     function handleKeyboardNavigation(event) {
-        const suggestions = document.querySelectorAll('#suggestionsContainer > div');
+        const suggestions = suggestionsContainer.querySelectorAll('div');
         switch (event.key) {
             case 'ArrowUp':
                 event.preventDefault();
@@ -113,8 +129,7 @@
             case 'Enter':
                 event.preventDefault();
                 if (activeSuggestionIndex !== -1) {
-                    const suggestionText = suggestions[activeSuggestionIndex].textContent;
-                    document.getElementById('urlInput').value = suggestionText;
+                    urlInput.value = suggestions[activeSuggestionIndex].textContent;
                     document.getElementById('submitBtn').click();
                 }
                 break;
@@ -123,13 +138,12 @@
         suggestions.forEach((suggestion, index) => {
             if (index === activeSuggestionIndex) {
                 suggestion.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#888' : '#cce';
+                urlInput.value = suggestion.textContent;
             } else {
                 suggestion.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#666' : '#fff';
             }
         });
     }
-
-    const urlInput = document.getElementById('urlInput');
 
     urlInput.addEventListener('input', async () => {
         const query = urlInput.value.trim();
@@ -141,12 +155,11 @@
                 console.error(error);
             }
         } else {
-            document.getElementById('suggestionsContainer').style.display = 'none';
+            suggestionsContainer.style.display = 'none';
         }
     });
 
     document.body.addEventListener('click', (event) => {
-        const suggestionsContainer = document.getElementById('suggestionsContainer');
         if (!event.target.closest('#suggestionsContainer') && suggestionsContainer.style.display === 'block') {
             suggestionsContainer.style.display = 'none';
         }
@@ -154,23 +167,18 @@
 
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            document.getElementById('suggestionsContainer').style.display = 'none';
+            suggestionsContainer.style.display = 'none';
         }
     });
 
     function updateSuggestionsPosition() {
-        const suggestionsContainer = document.getElementById('suggestionsContainer');
-
         suggestionsContainer.style.top = `${urlInput.offsetTop + urlInput.offsetHeight}px`;
         suggestionsContainer.style.left = `${urlInput.offsetLeft}px`;
         suggestionsContainer.style.width = `${urlInput.offsetWidth}px`;
     }
 
     window.addEventListener('resize', () => {
-        const suggestionsContainer = document.getElementById('suggestionsContainer');
-        if (suggestionsContainer) {
-            updateSuggestionsPosition();
-        }
+        updateSuggestionsPosition();
     });
 
     document.addEventListener('keydown', handleKeyboardNavigation);
