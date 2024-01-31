@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-  <ShortName>DuckDuckGo</ShortName>
-  <Description>Use DuckDuckGo to search the web.</Description>
-  <InputEncoding>UTF-8</InputEncoding>
-  <Url type="application/x-suggestions+json" method="GET" template="https://ac.duckduckgo.com/ac/">
-    <Param name="q" value="{searchTerms}"/>
-    <Param name="type" value="list"/>
-  </Url>
-  <Url type="text/html" method="GET" template="https://cat-ling.github.io/search/">
-    <Param name="q" value="{searchTerms}" />
-  </Url>
-  <Url type="application/x-moz-tabletsearch" method="GET" template="https://cat-ling.github.io/search/">
-    <Param name="q" value="{searchTerms}" />
-  </Url>
-  <SearchForm>https://cat-ling.github.io/search/</SearchForm>
+<ShortName>Cat&#45;Ling</ShortName>
+
+<InputEncoding>UTF-8</InputEncoding>
+<Image height="16" width="16">https://duckduckgo.com/favicon.ico</Image>
+<Url type="text/html" method="GET" template="https://cat-ling.github.io/search?q={searchTerms}"/>
+<Url type="application/x-suggestions+json" method="GET" template="https://ac.duckduckgo.com/ac/?q={searchTerms}&amp;type=list"/>
 </OpenSearchDescription>
