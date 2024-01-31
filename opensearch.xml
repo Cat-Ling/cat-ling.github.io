@@ -7,10 +7,10 @@
     <Param name="q" value="{searchTerms}"/>
     <Param name="type" value="list"/>
   </Url>
-  <Url type="text/html" method="GET" template="https://cat-ling.github.io/search/?q={searchTerms}">
+  <Url type="text/html" method="GET" template="https://cat-ling.github.io/search/">
     <Param name="q" value="{searchTerms}" />
   </Url>
-  <Url type="application/x-moz-tabletsearch" method="GET" template="https://cat-ling.github.io/search/?q={searchTerms}">
+  <Url type="application/x-moz-tabletsearch" method="GET" template="https://cat-ling.github.io/search/">
     <Param name="q" value="{searchTerms}" />
   </Url>
   <SearchForm>https://cat-ling.github.io/search/</SearchForm>
