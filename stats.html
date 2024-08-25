@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cached Files</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Cached Files</h1>
+    <table id="cachedFilesTable">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Cached files will be injected here -->
+        </tbody>
+    </table>
+    <script>
+        (function() {
+            const cachedFiles = JSON.parse(localStorage.getItem('cachedFiles') || '[]');
+            const tableBody = document.getElementById('cachedFilesTable').getElementsByTagName('tbody')[0];
+            cachedFiles.forEach(file => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = file.url;
+                row.insertCell(1).textContent = file.type;
+            });
+        })();
+    </script>
+</body>
+</html>
