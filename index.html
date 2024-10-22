@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!base href="https://cat-ling.github.io">
+    <base href="https://cat-ling.github.io">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'none';
-    style-src 'self' https://cat-ling.github.io;
-    connect-src https://*.duckduckgo.com https://duckduckgo.com/ 'self';
-    script-src 'self' https://cat-ling.github.io;
-    base-uri 'self';
-    form-action 'self' https://*.duckduckgo.com/ https://duckduckgo.com/;
-">
+    <meta http-equiv="Cache-Control" content="max-age=86400, public">
+    <meta name="description" content="A simple new tab page that lets you search the web using DuckDuckGo while keeping your searches as private as possible. Enter URLs or search terms to get started.">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'none';
+        style-src 'self' https://cat-ling.github.io;
+        connect-src https://*.duckduckgo.com https://duckduckgo.com/ 'self';
+        script-src 'self' https://cat-ling.github.io;
+        base-uri 'self';
+        form-action 'self' https://*.duckduckgo.com/ https://duckduckgo.com/;
+    ">
   
-    <title>New Tab</title>
+    <title>New Tab - Search with DuckDuckGo</title>
     <link rel="stylesheet" href="./sloppy.css">
 </head>
 <body>
@@ -27,8 +29,14 @@
     <script src="./Search.js" defer></script>
     <script src="./Listener.js" defer></script>
     <footer>
-        <div class="powered-by"><u><a href="https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js" target="_blank">Click Here</a></u> to Enable Search Suggestions from DuckDuckGo (UserScript).</div>
-        <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank">DuckDuckGo.</a></div>
+        <div class="powered-by">
+            <u>
+                <a href="https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js" target="_blank">
+                    Enable Search Suggestions from DuckDuckGo (UserScript)
+                </a>
+            </u>
+        </div>
+        <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank">DuckDuckGo</a>.</div>
     </footer>
 </body>
 </html>
