@@ -1,7 +1,7 @@
 /*
-This script handles the execution of checking if the search query was a search or an url and treats it accordingly.
-You can directly go to DuckDuckGo if you wish to. But it is easier and faster for me this way so i ended up including
-every 
+This script handles the execution of checking wether the search query was a search or a url and treats it accordingly.
+I wasn't sure if there was any other way to implement this so I just included every tld I could get my hands on.
+It has its flaws, but works generally well for most use cases.
 */
 function submitUrl() {
   let urlInput = document.getElementById('urlInput').value.trim();
