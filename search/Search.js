@@ -3,25 +3,42 @@ function setUrlInputAndSubmit(url) {
     submitUrl(url);
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const query = urlParams.get('q');
+function getQuery() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryFromParam = urlParams.get('q');
+    const queryFromHash = window.location.hash.substring(1);
+
+    if (queryFromParam) {
+        return queryFromParam;
+    } else if (queryFromHash) {
+        return decodeURIComponent(queryFromHash);
+    }
+    return null;
+}
 
 window.addEventListener('popstate', function(event) {
-    // Check if the event state is null, indicating a backward navigation
     if (event.state === null) {
-        // User has navigated back, do nothing
+        // User navigated back, do nothing
     }
 });
+
+const query = getQuery();
 
 if (!window.history.state && (query === null || query === "")) {
     document.getElementById('errorMessage').innerText = "A search query is required.";
     setTimeout(function() {
         window.location.href = "../index.html";
-    }, 3000); // Go back to homepage if the query is not provided.
+    }, 3000);
 } else if (!window.history.state && query !== null && query !== "") {
-    // This is the initial page load or a forward navigation
     setUrlInputAndSubmit(query);
-    
-    // Remove the query from the URL to prevent it from being stored in history
+
+    // Clear both query parameter and hash from URL
     history.replaceState({}, document.title, "/search");
 }
+
+// Optional: Intercept form submission to always use hash
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const query = document.getElementById('urlInput').value;
+    window.location.href = "/search#" + encodeURIComponent(query);
+});
