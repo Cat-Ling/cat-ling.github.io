@@ -1,56 +1,30 @@
-function setUrlInputAndSubmit(url) {
-    document.getElementById('urlInput').value = url;
-    submitUrl(url);
+function setUrlInputAndSubmit(query) {
+    document.getElementById('urlInput').value = query;
+    submitUrl(query);
 }
 
-function getQuery() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryFromParam = urlParams.get('q');
-    const queryFromHash = window.location.hash.substring(1);
+// Check both ?q= and #query
+const urlParams = new URLSearchParams(window.location.search);
+let query = urlParams.get('q');
 
-    if (queryFromParam) {
-        return queryFromParam;
-    } else if (queryFromHash) {
-        return decodeURIComponent(queryFromHash);
-    }
-    return null;
+// If no query in ?q=, check #
+if (!query) {
+    query = window.location.hash.substring(1);
 }
 
+// Handle popstate event to prevent logging
 window.addEventListener('popstate', function(event) {
     if (event.state === null) {
         // User navigated back, do nothing
     }
 });
 
-const query = getQuery();
-
-if (!window.history.state && (query === null || query === "")) {
+if (!query) {
     document.getElementById('errorMessage').innerText = "A search query is required.";
-    setTimeout(function() {
-        window.location.href = "../index.html";
-    }, 3000);
-} else if (!window.history.state && query !== null && query !== "") {
+    setTimeout(() => window.location.href = "../index.html", 3000);
+} else {
     setUrlInputAndSubmit(query);
 
-    // Use setTimeout to ensure the query is removed before logging
-    setTimeout(() => {
-        history.replaceState({}, document.title, "/search");
-    }, 10);
+    // Ensure query is not stored in history
+    history.replaceState({}, document.title, "/search#" + encodeURIComponent(query));
 }
-
-// Ensure URL is cleared on page load
-window.onload = function() {
-    history.replaceState({}, document.title, "/search");
-};
-
-// Optional: Intercept form submission to always use hash
-document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const query = document.getElementById('urlInput').value;
-
-    // Use pushState to prevent logging in browser history
-    history.pushState({}, document.title, "/search");
-
-    // Process the query immediately
-    setUrlInputAndSubmit(query);
-});
