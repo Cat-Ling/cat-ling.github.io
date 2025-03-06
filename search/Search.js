@@ -1,30 +1,44 @@
-function setUrlInputAndSubmit(query) {
-    document.getElementById('urlInput').value = query;
-    submitUrl(query);
+function setUrlInputAndSubmit(url) {
+    document.getElementById('urlInput').value = url;
+    submitUrl(url);
 }
 
-// Check both ?q= and #query
-const urlParams = new URLSearchParams(window.location.search);
-let query = urlParams.get('q');
+function getQuery() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryFromParam = urlParams.get('q');
+    const queryFromHash = window.location.hash.substring(1);
 
-// If no query in ?q=, check #
-if (!query) {
-    query = window.location.hash.substring(1);
+    if (queryFromParam) {
+        return queryFromParam;
+    } else if (queryFromHash) {
+        return decodeURIComponent(queryFromHash);
+    }
+    return null;
 }
 
-// Handle popstate event to prevent logging
 window.addEventListener('popstate', function(event) {
     if (event.state === null) {
         // User navigated back, do nothing
     }
 });
 
-if (!query) {
+const query = getQuery();
+
+if (!window.history.state && (query === null || query === "")) {
     document.getElementById('errorMessage').innerText = "A search query is required.";
-    setTimeout(() => window.location.href = "../index.html", 3000);
-} else {
+    setTimeout(function() {
+        window.location.href = "../index.html";
+    }, 3000);
+} else if (!window.history.state && query !== null && query !== "") {
     setUrlInputAndSubmit(query);
 
-    // Ensure query is not stored in history
-    history.replaceState({}, document.title, "/search#" + encodeURIComponent(query));
+    // Clear both query parameter and hash from URL
+    history.replaceState({}, document.title, "/search");
 }
+
+// Optional: Intercept form submission to always use hash
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const query = document.getElementById('urlInput').value;
+    window.location.href = "/search#" + encodeURIComponent(query);
+});
