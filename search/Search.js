@@ -40,5 +40,10 @@ if (!window.history.state && (query === null || query === "")) {
 document.getElementById('searchForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const query = document.getElementById('urlInput').value;
-    window.location.href = "/search#" + encodeURIComponent(query);
+
+    // Use pushState to prevent logging in browser history
+    history.pushState({}, document.title, "/search#" + encodeURIComponent(query));
+    
+    // Process the query immediately
+    setUrlInputAndSubmit(query);
 });
