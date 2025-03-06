@@ -21,4 +21,7 @@ if (!window.history.state && (query === null || query === "")) {
 } else if (!window.history.state && query !== null && query !== "") {
     // This is the initial page load or a forward navigation
     setUrlInputAndSubmit(query);
+    
+    // Remove the query from the URL to prevent it from being stored in history
+    history.replaceState({}, document.title, "/search");
 }
