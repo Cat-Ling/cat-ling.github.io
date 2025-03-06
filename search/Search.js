@@ -32,9 +32,16 @@ if (!window.history.state && (query === null || query === "")) {
 } else if (!window.history.state && query !== null && query !== "") {
     setUrlInputAndSubmit(query);
 
-    // Clear both query parameter and hash from URL
-    history.replaceState({}, document.title, "/search");
+    // Use setTimeout to ensure the query is removed before logging
+    setTimeout(() => {
+        history.replaceState({}, document.title, "/search");
+    }, 10);
 }
+
+// Ensure URL is cleared on page load
+window.onload = function() {
+    history.replaceState({}, document.title, "/search");
+};
 
 // Optional: Intercept form submission to always use hash
 document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -42,8 +49,8 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
     const query = document.getElementById('urlInput').value;
 
     // Use pushState to prevent logging in browser history
-    history.pushState({}, document.title, "/search#" + encodeURIComponent(query));
-    
+    history.pushState({}, document.title, "/search");
+
     // Process the query immediately
     setUrlInputAndSubmit(query);
 });
