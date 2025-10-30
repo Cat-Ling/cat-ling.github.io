@@ -5,53 +5,49 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>qr</title>
   <style>
-    /* page must show nothing but the QR cide */
-    html,body{height:100%;margin:0;background:#fff}
-    /* keep only the image centeredd and nothing else */
-    img{display:block;max-width:96vmin;max-height:96vmin;margin:auto;position:relative;top:50%;transform:translateY(-50%);}
+    html,body{height:100%;margin:0;background:#fff;display:flex;justify-content:center;align-items:center}
+    canvas{max-width:96vmin;max-height:96vmin;}
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js"></script>
 </head>
 <body>
-  <!-- The page intentionally contains only the QR image element. -->
-  <img id="qr" alt="QR code" />
-
+  <canvas id="qr"></canvas>
   <script>
-    // Read ?q=<text or url> and show a QR code only. If q is missing, the page stays blank.
     (function(){
       function getParam(name){
         const url = new URL(location.href);
         return url.searchParams.get(name);
       }
-
       const q = getParam('q');
       if(!q){
-        // nothing to show — keep page empty (no text, no UI)
-        // ensure image is removed for absolute emptiness
-        const img = document.getElementById('qr');
-        img.remove();
+        // no data, keep page blank
         return;
       }
 
-      // optional size param (number of pixels); default 800
-      const sizeParam = parseInt(getParam('s')) || 800;
-      const size = Math.max(64, Math.min(2000, sizeParam));
+      // create QR code using qrcode-generator
+      const typeNumber = 0; // 0 = automatic
+      const errorCorrectionLevel = 'L';
+      const qr = qrcode(typeNumber, errorCorrectionLevel);
+      qr.addData(q);
+      qr.make();
 
-      // use of the Google Chart API static QR generator — small, reliable, works on GH Pages.
-      // If you prefer a fully local JS implementation (no external requests), swap this logic
-      // for an embedded QR library such as qrcodejs or qr-code-styling.
-      const data = encodeURIComponent(q);
-      const src = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${data}&chld=L|1`;
-
-      const img = document.getElementById('qr');
-      img.src = src;
-      // remove alt text so nothing else is visible to screen readers by default
-      img.alt = '';
-
-      // Prevent any accidental UI like context menus from appearing (keeps "only image" feel)
-      window.addEventListener('contextmenu', e => e.preventDefault());
-
-      // If embedded in an <iframe> with a white background, ensure body is same color
-      // so the page appears to be only the QR code.
+      // render to canvas
+      const canvas = document.getElementById('qr');
+      const ctx = canvas.getContext('2d');
+      const cellSize = 8;
+      const margin = cellSize * 4;
+      const moduleCount = qr.getModuleCount();
+      canvas.width = canvas.height = moduleCount * cellSize + margin * 2;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#000';
+      for(let row=0; row<moduleCount; row++){
+        for(let col=0; col<moduleCount; col++){
+          if(qr.isDark(row,col)){
+            ctx.fillRect(col*cellSize + margin, row*cellSize + margin, cellSize, cellSize);
+          }
+        }
+      }
     })();
   </script>
 </body>
