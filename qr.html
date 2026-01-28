@@ -5,8 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>qr</title>
   <style>
-    html,body{height:100%;margin:0;background:#fff;display:flex;justify-content:center;align-items:center}
-    canvas{max-width:96vmin;max-height:96vmin;}
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    canvas {
+      /* Uses vmin to ensure it fits both portrait and landscape perfectly */
+      max-width: 98vmin;
+      max-height: 98vmin;
+      image-rendering: pixelated; /* Keeps the QR code sharp when scaled */
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js"></script>
 </head>
@@ -14,37 +27,40 @@
   <canvas id="qr"></canvas>
   <script>
     (function(){
-      function getParam(name){
-        const url = new URL(location.href);
-        return url.searchParams.get(name);
-      }
-      const q = getParam('q');
-      if(!q){
-        // no data, keep page blank
-        return;
+      const urlParams = new URLSearchParams(window.location.search);
+      let q = urlParams.get('q');
+      if(!q) return;
+
+      try {
+        // Decode the Base64 string back to the original URL
+        q = atob(q);
+      } catch(e) {
+        console.error("Failed to decode Base64", e);
       }
 
-      // create QR code using qrcode-generator
-      const typeNumber = 0; // 0 = automatic
-      const errorCorrectionLevel = 'L';
-      const qr = qrcode(typeNumber, errorCorrectionLevel);
+      const qr = qrcode(0, 'L');
       qr.addData(q);
       qr.make();
 
-      // render to canvas
       const canvas = document.getElementById('qr');
       const ctx = canvas.getContext('2d');
-      const cellSize = 8;
-      const margin = cellSize * 4;
       const moduleCount = qr.getModuleCount();
+      
+      // Dynamic sizing: aim for a large canvas, CSS handles the downscaling
+      const targetSize = 1024; 
+      const cellSize = Math.floor(targetSize / moduleCount);
+      const margin = cellSize * 2; // Quieter zone for better scanning
+      
       canvas.width = canvas.height = moduleCount * cellSize + margin * 2;
+      
       ctx.fillStyle = '#fff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#000';
+      
       for(let row=0; row<moduleCount; row++){
         for(let col=0; col<moduleCount; col++){
-          if(qr.isDark(row,col)){
-            ctx.fillRect(col*cellSize + margin, row*cellSize + margin, cellSize, cellSize);
+          if(qr.isDark(row, col)){
+            ctx.fillRect(col * cellSize + margin, row * cellSize + margin, cellSize, cellSize);
           }
         }
       }
