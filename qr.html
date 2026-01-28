@@ -3,67 +3,159 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>qr</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Cache-Control" content="max-age=31536000, must-revalidate" />
+  <title>QR Generator</title>
   <style>
+    :root {
+      --bg: #ffffff;
+      --accent: #007AFF;
+      --text: #1d1d1f;
+      --subtext: #86868b;
+      --code-bg: #f5f5f7;
+    }
+
     html, body {
       height: 100%;
       margin: 0;
-      background: #fff;
+      font-family: -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
     }
-    canvas {
-      /* Uses vmin to ensure it fits both portrait and landscape perfectly */
-      max-width: 98vmin;
-      max-height: 98vmin;
-      image-rendering: pixelated; /* Keeps the QR code sharp when scaled */
+
+    .canvas-view {
+      display: none;
+      max-width: 90vmin;
+      max-height: 90vmin;
+      border-radius: 60px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      image-rendering: pixelated;
     }
+
+    .setup-view {
+      display: none;
+      max-width: 440px;
+      padding: 40px;
+      text-align: center;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 60px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      padding: 16px;
+      border-radius: 20px;
+      font-family: "SF Mono", "Menlo", monospace;
+      font-size: 11px;
+      word-break: break-all;
+      text-align: left;
+      margin: 20px 0;
+      border: 1px solid #d2d2d7;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .primary-btn.copied { background: #34c759; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js"></script>
 </head>
 <body>
-  <canvas id="qr"></canvas>
+
+  <canvas id="qrCanvas" class="canvas-view"></canvas>
+
+  <section id="setupPanel" class="setup-view">
+    <h1 style="margin:0 0 8px; font-size:22px;">QR Utility</h1>
+    <p style="margin:0 0 24px; color:var(--subtext); font-size:14px;">Deploy this bookmarklet to generate codes from any site.</p>
+    <div id="bmlDisplay" class="code-block"></div>
+    <button id="copyAction" class="primary-btn">Copy Bookmarklet</button>
+  </section>
+
   <script>
-    (function(){
-      const urlParams = new URLSearchParams(window.location.search);
-      let q = urlParams.get('q');
-      if(!q) return;
+    (function() {
+      const UI = {
+        canvas: document.getElementById('qrCanvas'),
+        setup: document.getElementById('setupPanel'),
+        code: document.getElementById('bmlDisplay'),
+        copy: document.getElementById('copyAction')
+      };
 
-      try {
-        // Decode the Base64 string back to the original URL
-        q = atob(q);
-      } catch(e) {
-        console.error("Failed to decode Base64", e);
-      }
+      const getSourceUrl = () => `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
-      const qr = qrcode(0, 'L');
-      qr.addData(q);
-      qr.make();
+      const buildBookmarklet = () => {
+        const url = getSourceUrl();
+        return `javascript:(function(){const q=btoa(location.href),w=500,h=500,l=(screen.width-w)/2,t=(screen.height-h)/2;window.open('${url}?q='+encodeURIComponent(q),'qr','width='+w+',height='+h+',top='+t+',left='+l+',resizable=no,scrollbars=no');})();`;
+      };
 
-      const canvas = document.getElementById('qr');
-      const ctx = canvas.getContext('2d');
-      const moduleCount = qr.getModuleCount();
-      
-      // Dynamic sizing: aim for a large canvas, CSS handles the downscaling
-      const targetSize = 1024; 
-      const cellSize = Math.floor(targetSize / moduleCount);
-      const margin = cellSize * 2; // Quieter zone for better scanning
-      
-      canvas.width = canvas.height = moduleCount * cellSize + margin * 2;
-      
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#000';
-      
-      for(let row=0; row<moduleCount; row++){
-        for(let col=0; col<moduleCount; col++){
-          if(qr.isDark(row, col)){
-            ctx.fillRect(col * cellSize + margin, row * cellSize + margin, cellSize, cellSize);
+      const executeRender = (query) => {
+        try {
+          const data = atob(query);
+          const qr = qrcode(0, 'L');
+          qr.addData(data);
+          qr.make();
+
+          const ctx = UI.canvas.getContext('2d');
+          const count = qr.getModuleCount();
+          const cellSize = 12;
+          const margin = cellSize * 4;
+
+          UI.canvas.width = UI.canvas.height = (count * cellSize) + (margin * 2);
+          UI.canvas.style.display = 'block';
+
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, UI.canvas.width, UI.canvas.height);
+          ctx.fillStyle = '#000';
+
+          for (let r = 0; r < count; r++) {
+            for (let c = 0; c < count; c++) {
+              if (qr.isDark(r, c)) ctx.fillRect((c * cellSize) + margin, (r * cellSize) + margin, cellSize, cellSize);
+            }
           }
+        } catch (err) {
+          initSetup();
         }
-      }
+      };
+
+      const initSetup = () => {
+        const bml = buildBookmarklet();
+        UI.setup.style.display = 'block';
+        UI.code.textContent = bml;
+        UI.copy.onclick = async () => {
+          await navigator.clipboard.writeText(bml);
+          UI.copy.textContent = 'Copied!';
+          UI.copy.classList.add('copied');
+          setTimeout(() => {
+            UI.copy.textContent = 'Copy Bookmarklet';
+            UI.copy.classList.remove('copied');
+          }, 2000);
+        };
+      };
+
+      const run = () => {
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('qr.js').catch(() => {});
+        const payload = new URLSearchParams(window.location.search).get('q');
+        payload ? executeRender(payload) : initSetup();
+      };
+
+      run();
     })();
   </script>
 </body>
