@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Search Suggestions for Cat-Ling
 // @namespace    -
-// @version      0.3
+// @version      0.4
 // @description  Shows search suggestions fetched from the DuckDuckGo API.
 // @author       Cat-Ling
 // @match        https://cat-ling.github.io/*
@@ -43,9 +43,12 @@
     }
 
     const urlInput = document.getElementById('urlInput');
-    const suggestionsContainer = document.createElement('div');
-    suggestionsContainer.id = 'suggestionsContainer';
-    document.body.appendChild(suggestionsContainer);
+    let suggestionsContainer = document.getElementById('suggestionsContainer');
+    if (!suggestionsContainer) {
+        suggestionsContainer = document.createElement('div');
+        suggestionsContainer.id = 'suggestionsContainer';
+        document.body.appendChild(suggestionsContainer);
+    }
 
     function displaySuggestions(suggestions) {
         suggestionsContainer.innerHTML = '';
