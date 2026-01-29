@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Search Suggestions for Cat-Ling
 // @namespace    -
-// @version      0.2
+// @version      0.3
 // @description  Shows search suggestions fetched from the DuckDuckGo API.
 // @author       Cat-Ling
 // @match        https://cat-ling.github.io/*
