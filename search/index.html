@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base href="https://cat-ling.github.io/search/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#333333" media="(prefers-color-scheme: dark)">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
-        style-src 'self' https://cat-ling.github.io/ cat-ling.github.io/;
-        script-src 'self' https://cat-ling.github.io/ cat-ling.github.io/;
+        connect-src 'none';
+        script-src 'none';
+        script-src-elem 'self';
+        script-src-attr 'none';
+        style-src 'none';
+        style-src-elem 'self';
+        style-src-attr 'unsafe-inline';
+        img-src 'self';
+        font-src 'none';
+        frame-src 'none';
+        media-src 'none';
         object-src 'none';
+        manifest-src 'self';
+        worker-src 'none';
+        form-action 'self' https://*.duckduckgo.com https://duckduckgo.com;
         base-uri 'self';
-        form-action 'self' https://www.duckduckgo.com/ https://duckduckgo.com/ duckduckgo.com/;
     ">
-    <script src="../DuckDuckGo.js" defer></script>
-    <script src="../Submit.js" defer></script>
-    <script src="./Search.js" defer></script>  
     <title>Search</title>
-    <link rel="stylesheet" href="../sloppy.css">
+    <link rel="stylesheet" href="../sloppy.css" integrity="sha384-UKUtdlNpwQfjLCVW3jlBTvsOlAAB6Kl9Cif2e/gFHt9uQkD50kbCkth6aQJ8JAWY" crossorigin="anonymous">
 </head>
+
 <body>
     <form>
         <input hidden id="urlInput">
-        </form>
-    <script src="../DuckDuckGo.js" defer></script>
-    <script src="../Submit.js" defer></script>
-    <script src="./Search.js" defer></script>  
+    </form>
+    <script src="../DuckDuckGo.js" integrity="sha384-guLfgXkva3intEgV2tQsDaIV+GA4SFi1hgmAa0kpWiLeXvW50HBvhBAxYUmw3kPX"
+        crossorigin="anonymous" defer></script>
+    <script src="../Submit.js" integrity="sha384-FY0rwpjgULvx2M/Pqi+/84zTQEZIXCoGiOxciveAcsQNIe1KbpRSyOn0HEoV1Sna"
+        crossorigin="anonymous" defer></script>
+    <script src="../Bangs.js" integrity="sha384-itC/Xt10LKtxyfj+hRo87Ql1ny4L6AfB4WJlyI8WCZS4ohAgDacuLN6Qoqw15cj7"
+        crossorigin="anonymous" defer></script>
+    <script src="./Search.js" integrity="sha384-fqdxrzfks4sf9Bt2NYcJ6uB3885oWxSBj49AZ41vyQLPEQyG3MEaMsYQvgAVAY8z"
+        crossorigin="anonymous" defer></script>
     <div id="errorMessage"></div>
 </body>
+
 </html>

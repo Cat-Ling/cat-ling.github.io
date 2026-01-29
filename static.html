@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="https://cat-ling.github.io">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#333333" media="(prefers-color-scheme: dark)">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'none';
+        connect-src 'none';
+        script-src 'none';
+        script-src-elem 'none';
+        script-src-attr 'none';
+        style-src 'none';
+        style-src-elem 'self';
+        style-src-attr 'unsafe-inline';
+        img-src 'self';
+        font-src 'none';
+        frame-src 'none';
+        media-src 'none';
+        object-src 'none';
+        manifest-src 'self';
+        worker-src 'none';
+        form-action 'self' https://*.duckduckgo.com https://duckduckgo.com;
+        base-uri 'self';
+        upgrade-insecure-requests;
+        block-all-mixed-content;
+    ">
+    <title>New Tab - Static Search</title>
+    <link rel="stylesheet" href="./sloppy.css">
+</head>
+
+<body>
+    <div id="urlContainer">
+        <form action="https://duckduckgo.com/" method="POST"
+            style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <!-- Visible Search Input -->
+            <input autofocus id="urlInput" name="q" placeholder="Enter search term" autocomplete="off" required>
+
+            <!-- Hidden DuckDuckGo Parameters (Replicating DuckDuckGo.js) -->
+            <input type="hidden" name="kp" value="-2"> <!-- SafeSearch Off -->
+            <input type="hidden" name="kg" value="p"> <!-- POST Request -->
+            <input type="hidden" name="kae" value="d"> <!-- Dark Theme -->
+            <input type="hidden" name="ko" value="1"> <!-- Floating Navbar -->
+            <input type="hidden" name="k1" value="-1"> <!-- Disable Ads -->
+            <input type="hidden" name="k5" value="-1"> <!-- Video Prefs -->
+            <input type="hidden" name="kh" value="1"> <!-- HTTPS -->
+            <input type="hidden" name="kd" value="1"> <!-- Hide Referrer -->
+            <input type="hidden" name="kav" value="1"> <!-- Auto Load -->
+            <input type="hidden" name="kl" value="us-en"><!-- Region -->
+
+            <button id="submitBtn" type="submit">Search</button>
+        </form>
+    </div>
+    <footer>
+        <div class="powered-by">Static Mode (No JS)</div>
+        <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank"
+                rel="noopener noreferrer">DuckDuckGo</a>.</div>
+    </footer>
+</body>
+
+</html>

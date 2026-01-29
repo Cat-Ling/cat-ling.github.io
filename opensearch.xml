@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Cat-Ling</ShortName>
+  <Description>Search cars</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Url type="text/html" method="get" template="https://cat-ling.github.io/?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" template="https://duckduckgo.com/ac/?q={searchTerms}&amp;type=list"/>
+  <Image height="16" width="16" type="image/x-icon">https://cat-ling.github.io/favicon.ico</Image>
+</OpenSearchDescription>

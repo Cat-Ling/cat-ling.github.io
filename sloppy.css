@@ -74,6 +74,29 @@ footer a {
     text-decoration: none;
 }
 
+#suggestionsContainer {
+    position: absolute;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 9999;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #333;
@@ -106,5 +129,15 @@ footer a {
 
     #submitBtn:hover {
         background-color: #004494;
+    }
+
+    #suggestionsContainer {
+        background-color: #444;
+        color: #fff;
+        border-color: #666;
+    }
+
+    .suggestion-item:hover {
+        background-color: #555;
     }
 }

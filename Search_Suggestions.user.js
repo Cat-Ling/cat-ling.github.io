@@ -12,14 +12,14 @@
 // @run-at       document-idle
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     async function getSuggestions(query) {
         const url = `https://duckduckgo.com/ac/?kl=wt-wt&q=${query}`;
         return new Promise((resolve, reject) => {
-            const doRequest = typeof GM_xmlhttpRequest !== 'undefined' 
-                ? GM_xmlhttpRequest 
+            const doRequest = typeof GM_xmlhttpRequest !== 'undefined'
+                ? GM_xmlhttpRequest
                 : GM?.xmlHttpRequest;
 
             if (!doRequest) {
@@ -45,23 +45,6 @@
     const urlInput = document.getElementById('urlInput');
     const suggestionsContainer = document.createElement('div');
     suggestionsContainer.id = 'suggestionsContainer';
-    suggestionsContainer.style.position = 'absolute';
-    suggestionsContainer.style.backgroundColor = '#fff';
-    suggestionsContainer.style.color = '#000';
-    suggestionsContainer.style.border = '1px solid #ccc';
-    suggestionsContainer.style.borderRadius = '5px';
-    suggestionsContainer.style.zIndex = '9999';
-    suggestionsContainer.style.maxHeight = '200px';
-    suggestionsContainer.style.overflowY = 'auto';
-    suggestionsContainer.style.display = 'none';
-    suggestionsContainer.style.width = `${urlInput.offsetWidth}px`;
-
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        suggestionsContainer.style.backgroundColor = '#666';
-        suggestionsContainer.style.color = '#fff';
-        suggestionsContainer.style.borderColor = '#888';
-    }
-
     document.body.appendChild(suggestionsContainer);
 
     function displaySuggestions(suggestions) {
@@ -74,20 +57,11 @@
         suggestions.forEach(({ phrase }) => {
             const suggestionElement = document.createElement('div');
             suggestionElement.textContent = phrase;
-            suggestionElement.style.padding = '5px';
-            suggestionElement.style.cursor = 'pointer';
+            suggestionElement.className = 'suggestion-item';
 
             suggestionElement.addEventListener('click', () => {
                 urlInput.value = phrase;
                 document.getElementById('submitBtn').click();
-            });
-
-            suggestionElement.addEventListener('mouseover', () => {
-                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#888' : '#cce';
-            });
-
-            suggestionElement.addEventListener('mouseout', () => {
-                suggestionElement.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#666' : '#fff';
             });
 
             suggestionsContainer.appendChild(suggestionElement);
@@ -106,6 +80,9 @@
 
     urlInput.addEventListener('input', async () => {
         const query = urlInput.value.trim();
+        // Ignore bang queries (handled by Bangs.js)
+        if (query.startsWith('!')) return;
+
         if (query) {
             try {
                 const suggestions = await getSuggestions(query);
@@ -125,4 +102,10 @@
     });
 
     window.addEventListener('resize', updateSuggestionsPosition);
+
+    // Hide the installation link since the script is active
+    const userscriptLink = document.getElementById('userscript-link');
+    if (userscriptLink) {
+        userscriptLink.style.display = 'none';
+    }
 })();

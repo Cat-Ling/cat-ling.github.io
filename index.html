@@ -1,42 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base href="https://cat-ling.github.io">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#333333" media="(prefers-color-scheme: dark)">
+    <meta name="referrer" content="no-referrer">
     <meta name="google-site-verification" content="FZ9p0tURd7-DHWCSCsD3IBh38IHbzusBye4qMpksuvM" />
-    <meta name="description" content="A simple new tab page that lets you search the web using DuckDuckGo while keeping your searches as private as possible. Enter URLs or search terms to get started.">
+    <meta name="description"
+        content="A simple new tab page that lets you search the web using DuckDuckGo while keeping your searches as private as possible. Enter URLs or search terms to get started.">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
-        style-src 'self' https://cat-ling.github.io;
-        connect-src https://*.duckduckgo.com https://duckduckgo.com/ 'self';
-        script-src 'self' https://cat-ling.github.io;
+        connect-src 'none';
+        script-src 'none';
+        script-src-elem 'self';
+        script-src-attr 'none';
+        style-src 'none';
+        style-src-elem 'self';
+        style-src-attr 'unsafe-inline';
+        img-src 'self';
+        font-src 'none';
+        frame-src 'none';
+        media-src 'none';
+        object-src 'none';
+        manifest-src 'self';
+        worker-src 'none';
+        form-action 'self' https://*.duckduckgo.com https://duckduckgo.com;
         base-uri 'self';
-        form-action 'self' https://*.duckduckgo.com/ https://duckduckgo.com/;
+        upgrade-insecure-requests;
+        block-all-mixed-content;
     ">
-  
+
     <title>New Tab - Search with DuckDuckGo</title>
-    <link rel="stylesheet" href="./sloppy.css">
+    <link rel="stylesheet" href="./sloppy.css" integrity="sha384-UKUtdlNpwQfjLCVW3jlBTvsOlAAB6Kl9Cif2e/gFHt9uQkD50kbCkth6aQJ8JAWY" crossorigin="anonymous">
+    <link rel="search" type="application/opensearchdescription+xml" title="Cat-Ling" href="/opensearch.xml">
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=static.html">
+    </noscript>
 </head>
+
 <body>
     <div id="urlContainer">
         <input autofocus id="urlInput" placeholder="Enter URL or search term" autocomplete="off">
         <button id="submitBtn">Search</button>
-    </div>  
-    <script src="./DuckDuckGo.js" defer></script>
-    <script src="./Submit.js" defer></script>
-    <script src="./Search.js" defer></script>
-    <script src="./Listener.js" defer></script>
+    </div>
+    <script src="./DuckDuckGo.js" integrity="sha384-guLfgXkva3intEgV2tQsDaIV+GA4SFi1hgmAa0kpWiLeXvW50HBvhBAxYUmw3kPX"
+        crossorigin="anonymous" defer></script>
+    <script src="./Bangs.js" integrity="sha384-itC/Xt10LKtxyfj+hRo87Ql1ny4L6AfB4WJlyI8WCZS4ohAgDacuLN6Qoqw15cj7"
+        crossorigin="anonymous" defer></script>
+    <script src="./Submit.js" integrity="sha384-FY0rwpjgULvx2M/Pqi+/84zTQEZIXCoGiOxciveAcsQNIe1KbpRSyOn0HEoV1Sna"
+        crossorigin="anonymous" defer></script>
+    <script src="./Search.js" integrity="sha384-ajV+ZU13Oq7cjDQI0ITbZPjPJYTpduQjUnuDJJufvxfqKPzdvHWQq831ImG1dQiU"
+        crossorigin="anonymous" defer></script>
+    <script src="./Listener.js" integrity="sha384-WX1kDr+1HVaKkhe7tVyqwYa51fZ2okFpRSAxFrXqY65zqq7DWxarLp5h26S6yX3p"
+        crossorigin="anonymous" defer></script>
     <footer>
-        <div class="powered-by">
+        <div class="powered-by" id="userscript-link">
             <u>
-                <a href="https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js" target="_blank">
+                <a href="https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js"
+                    target="_blank" rel="noopener noreferrer">
                     Search Suggestions (UserScript)
                 </a>
             </u>
         </div>
-        <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank">DuckDuckGo</a>.</div>
+        <div class="powered-by">Search powered by <a href="https://duckduckgo.com" target="_blank"
+                rel="noopener noreferrer">DuckDuckGo</a>.</div>
     </footer>
 </body>
+
 </html>
