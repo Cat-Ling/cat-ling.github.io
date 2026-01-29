@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>Cat-Ling</ShortName>
-  <Description>Search cars</Description>
+  <LongName>Cat-Ling Privacy Search</LongName>
+  <Description>Privacy-focused search interface powered by DuckDuckGo</Description>
+  <Tags>privacy search duckduckgo</Tags>
+  <Contact>cat-ling@example.com</Contact>
+  <Developer>Cat-Ling</Developer>
+  <Attribution>Search results provided by DuckDuckGo</Attribution>
   <InputEncoding>UTF-8</InputEncoding>
-  <Url type="text/html" method="get" template="https://cat-ling.github.io/?q={searchTerms}"/>
+  <SearchForm>https://cat-ling.github.io/</SearchForm>
+  <Url type="text/html" template="https://cat-ling.github.io/search/?q={searchTerms}"/>
   <Url type="application/x-suggestions+json" template="https://duckduckgo.com/ac/?q={searchTerms}&amp;type=list"/>
   <Image height="16" width="16" type="image/x-icon">https://cat-ling.github.io/favicon.ico</Image>
+  <Image height="64" width="64" type="image/svg+xml">https://cat-ling.github.io/favicon.svg</Image>
 </OpenSearchDescription>
