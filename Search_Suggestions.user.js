@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Search Suggestions for Cat-Ling
-// @namespace    -
+// @namespace    https://cat-ling.github.io
 // @version      0.4
 // @description  Shows search suggestions fetched from the DuckDuckGo API.
 // @author       Cat-Ling
 // @match        https://cat-ling.github.io/*
-// @updateURL    https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js
-// @downloadURL  https://cdn.jsdelivr.net/gh/Cat-Ling/cat-ling.github.io@master/Search_Suggestions.user.js
+// @updateURL    https://github.com/Cat-Ling/cat-ling.github.io/raw/refs/heads/main/Search_Suggestions.user.js
+// @downloadURL  https://github.com/Cat-Ling/cat-ling.github.io/raw/refs/heads/main/Search_Suggestions.user.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @run-at       document-idle
