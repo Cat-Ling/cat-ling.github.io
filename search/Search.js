@@ -20,10 +20,8 @@ if (!window.history.state && (query === null || query === "")) {
     }, 3000); // Go back to homepage if the query is not provided.
 } else if (!window.history.state && query !== null && query !== "") {
     if (window.handleBang && window.handleBang(query)) {
-        return;
-    }
-
-    if (query.startsWith('http://') || query.startsWith('https://')) {
+        // handled by bang
+    } else if (query.startsWith('http://') || query.startsWith('https://')) {
         window.location.href = query;
     } else {
         // This is the initial page load or a forward navigation
