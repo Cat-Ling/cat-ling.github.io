@@ -137,7 +137,7 @@ function handleBang(query) {
             bang.startsWith(prefix)
         );
 
-        container.innerHTML = '';
+        container.replaceChildren();
 
         if (matches.length === 0) {
             container.style.display = 'none';

@@ -51,7 +51,7 @@
     }
 
     function displaySuggestions(suggestions) {
-        suggestionsContainer.innerHTML = '';
+        suggestionsContainer.replaceChildren();
         if (!suggestions.length) {
             suggestionsContainer.style.display = 'none';
             return;
